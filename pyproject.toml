@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "<package name>"
-description = "<package description>"
+name = "pycis-core"
+description = "PyCIS - Core"
 version = "0.0.1"
 authors = []
 readme = "README.rst"
