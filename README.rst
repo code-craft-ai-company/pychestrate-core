@@ -1,15 +1,7 @@
-=======================
-python-package-template
-=======================
-This is a template repository that can be used to quickly create a python package project.
-
-=========================
-Features of this Template
-=========================
-* Machine Setup
-* Virtual Environment Setup (Poetry)
-* PyPi Publishing
-* Sphinx Documentation
+============
+PyCIS - Core
+============
+The PyCIS core package contains common/shared types and code such as data models and interfaces.
 
 ========================
 How to Use This Template
