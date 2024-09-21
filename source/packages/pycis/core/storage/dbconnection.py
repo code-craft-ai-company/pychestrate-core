@@ -24,7 +24,9 @@ from sqlalchemy.engine.base import Engine as SqlEngine
 
 from mojo.errors.exceptions import ConfigurationError, NotOverloadedError
 
+from mojo.credentials.basecredential import BaseCredential
 from mojo.credentials.basiccredential import BasicCredential
+
 from mojo.config.wellknown import CredentialManager
 
 
@@ -33,7 +35,7 @@ logger = logging.getLogger()
 
 class DatabaseConnectionFactory:
 
-    def __init__(self, profile_name: str, *, conntype: str, dbtype: str, credential: str, dbname: str=None, **other):
+    def __init__(self, profile_name: str, *, conntype: str, dbtype: str, credential: BaseCredential, dbname: str=None, **other):
         self._profile_name = profile_name
         self._conntype = conntype
         self._dbtype = dbtype
@@ -42,23 +44,23 @@ class DatabaseConnectionFactory:
         return
 
     @property
-    def conntype(self):
+    def conntype(self) -> str:
         return self._conntype
     
     @property
-    def credential(self):
+    def credential(self) -> BaseCredential:
         return self._credential
     
     @property
-    def dbname(self):
+    def dbname(self) -> str:
         return self._dbname
     
     @property
-    def dbtype(self):
+    def dbtype(self) -> str:
         return self._dbtype
     
     @property
-    def profile_name(self):
+    def profile_name(self) -> str:
         return self._profile_name
 
     def create_engine(self, *, dbname=None, echo=True) -> SqlEngine:
@@ -68,7 +70,7 @@ class DatabaseConnectionFactory:
 
 class BasicDatabaseConnectionFactory(DatabaseConnectionFactory):
 
-    def __init__(self, profile_name, *, conntype: str, dbtype:str, credential: str, dbname: str=None):
+    def __init__(self, profile_name: str, *, conntype: str, dbtype:str, credential: str, dbname: str=None):
         super().__init__(profile_name, conntype=conntype, dbtype=dbtype, credential=credential, dbname=dbname)
         return
 
@@ -79,7 +81,7 @@ class BasicDatabaseConnectionFactory(DatabaseConnectionFactory):
 
 class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
 
-    def __init__(self, profile_name, *, conntype: str, dbtype:str, host: str, port: int, credential: str, dbname: str=None):
+    def __init__(self, profile_name: str, *, conntype: str, dbtype:str, host: str, port: int, credential: BaseCredential, dbname: str=None):
         self.profile_name = profile_name
         self.conntype = conntype
         self.dbtype = dbtype
