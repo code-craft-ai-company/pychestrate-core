@@ -1,7 +1,7 @@
 ============
-PyCIS - Core
+Pychstrate - Core
 ============
-The PyCIS core package contains common/shared types and code such as data models and interfaces.
+The 'Pychstrate' core package contains common/shared types and code such as data models and interfaces.
 
 =================
 Code Organization
