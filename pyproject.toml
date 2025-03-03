@@ -17,12 +17,12 @@ packages = [{include="mojo", from="source/packages"}]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
-mojo-credentials = ">=1.3.16 <1.4.0"
-mojo-errors = ">=1.3.8 <1.4.0"
 psycopg2-binary = "^2.9.9"
 sqlalchemy = "^2.0.30"
 sqlalchemy-utils = "^0.41.2"
-mojo-config = ">=1.3.20 <1.4.0"
+automojo-errors = { git = "git@github.com:automationmojo/automojo-errors.git", branch = "main" }
+automojo-credentials = { git = "git@github.com:automationmojo/automojo-credentials.git", branch = "main" }
+automojo-dataprofiles = { git = "git@github.com:automationmojo/automojo-dataprofiles.git", branch = "main" }
 
 
 [tool.poetry.group.dev.dependencies]

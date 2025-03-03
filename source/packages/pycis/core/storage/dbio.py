@@ -12,7 +12,7 @@ __credits__ = []
 __version__ = "1.0.0"
 
 
-from typing import Dict
+from typing import Dict, Optional
 
 
 import contextlib
@@ -20,8 +20,12 @@ import logging
 import traceback
 
 from sqlalchemy.engine.base import Engine as SqlEngine
+from sqlalchemy.sql.schema import MetaData
 
-from mojo.errors.exceptions import ConfigurationError
+from sqlalchemy_utils import database_exists as sqlutils_database_exists
+from sqlalchemy_utils import create_database as sqlutils_create_database
+
+from automojo.errors.exceptions import ConfigurationError
 
 from pycis.core.storage.orm import ModelBase
 
@@ -31,34 +35,29 @@ from pycis.core.storage.dbconnection import DatabaseConnectionFactory, create_da
 logger = logging.getLogger()
 
 
-def database_exists(conn_factory: DatabaseConnectionFactory, dbname: str) -> bool:
+def database_exists(conn_factory: DatabaseConnectionFactory, dbname: Optional[str]=None) -> bool:
     """
         Checks to see if the specified database exists.
     """
-    engine = conn_factory.create_engine(dbname="postgres", echo=True)
-    result = engine.execute("SELECT 1 AS result FROM pg_database WHERE datname='%s'" % dbname)
+    conn_str = conn_factory.format_connection_string(dbname=dbname)
 
-    exists = result.rowcount > 0
+    exists = sqlutils_database_exists(conn_str)
 
     return exists
 
 
-def database_create(conn_factory: DatabaseConnectionFactory, dbname):
-    """
+def database_create(conn_factory: DatabaseConnectionFactory, dbname: Optional[str]=None, dbmetadata: Optional[MetaData]=None):
+    """ 
         Creates the specified database.
     """
-    engine = conn_factory.create_engine(dbname="postgres", echo=True)
 
-    conn = engine.connect()
-    try:
-        conn.connection.set_isolation_level(0)
-        result = conn.execute("CREATE DATABASE %s" % dbname)
-    except Exception as xcpt:
-        xmsg = traceback.format_exc()
-        logger.error(xmsg)
-        raise
-    finally:
-        conn.close()
+    conn_str = conn_factory.format_connection_string(dbname=dbname)
+
+    sqlutils_create_database(conn_str)
+
+    if dbmetadata is not None:
+        engine = conn_factory.create_engine(dbname=dbname)
+        dbmetadata.create_all(engine)
 
     return
 

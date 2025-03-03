@@ -15,6 +15,7 @@ __version__ = "1.0.0"
 import enum
 import json
 
+
 from sqlalchemy import BigInteger, Column, DateTime, Enum, Float, String, Text, VARCHAR, ForeignKey, TEXT
 from sqlalchemy import inspect
 from sqlalchemy.types import JSON
@@ -170,7 +171,7 @@ class WorkQueue(ModelBase, SerializableModel):
     """
     __tablename__ = 'work_queue'
     
-    id = Column('queue_id',  UUIDType, primary_key=True, autoincrement=True)
+    id = Column('queue_id',  UUIDType, primary_key=True, nullable=False)
     name = Column('queue_name', String(128), nullable=False, unique=True)
     qtype = Column('queue_type', String(128), nullable=False)
     description = Column('queue_desc', TEXT, nullable=False)
@@ -199,8 +200,8 @@ class WorkPacket(ModelBase, SerializableModel):
     status = Column('wkpk_status', String(50), nullable=False)
     packet = Column('wkpk_packet', TEXT, nullable=False)
 
-    queue_id = Column('queue_id',  VARCHAR(40), ForeignKey(WorkQueue.id), nullable=False)
-    user_id = Column('user_id', VARCHAR(40), ForeignKey(User.id), nullable=False)
+    queue_id = Column('queue_id',  UUIDType, ForeignKey(WorkQueue.id), nullable=False)
+    user_id = Column('user_id', UUIDType, ForeignKey(User.id), nullable=False)
 
 
 class FeatureGroup(ModelBase, SerializableModel):
@@ -209,7 +210,7 @@ class FeatureGroup(ModelBase, SerializableModel):
     """
     __tablename__ = 'feature_group'
     
-    id = Column('fg_id', BigInteger, primary_key=True)
+    id = Column('fg_id', BigInteger, primary_key=True, autoincrement=True)
     name = Column('fg_name', VARCHAR(256), nullable=False)
     description = Column('fg_description', TEXT, nullable=False)
 
@@ -221,9 +222,9 @@ class TestJob(ModelBase, SerializableModel):
     """
     __tablename__ = 'test_job'
     
-    id = Column('job_id', UUIDType, primary_key=True)
-    title =  Column('job_title', VARCHAR(1024), nullable=False)
-    description = Column('job_description', Text, nullable=False)
+    id = Column('tj_id', UUIDType, primary_key=True)
+    title =  Column('tj_title', VARCHAR(1024), nullable=False)
+    description = Column('tj_description', Text, nullable=False)
 
     owner_fg_id = Column('owner_fg_id', BigInteger, ForeignKey(FeatureGroup.id), nullable=True)
 
@@ -235,17 +236,17 @@ class TestJobRun(ModelBase, SerializableModel):
 
     __tablename__ = 'test_job_run'
     
-    instance = Column('tjr_instance', UUIDType, nullable=False)
+    instance = Column('tjr_instance', UUIDType, nullable=False, primary_key=True)
     branch =  Column('tjr_branch', VARCHAR(1024), nullable=True)
     build =  Column('tjr_build', VARCHAR(1024), nullable=True)
     flavor =  Column('tjr_flavor', VARCHAR(1024), nullable=True)
-    ownertag = Column('wkpk_ownertag', VARCHAR(40), nullable=True)
+    ownertag = Column('wkpk_ownertag', UUIDType, nullable=True)
     start = Column('tjr_start', DateTime, nullable=False)
     stop = Column('tjr_stop', DateTime, nullable=True)
     detail = Column('tjr_detail', JSON, nullable=True)
 
-    job_id = Column('job_id', VARCHAR(40), ForeignKey(TestJob.id), nullable=False)
-    user_id = Column('user_id', VARCHAR(40), ForeignKey(User.id), nullable=False)
+    job_id = Column('job_id', UUIDType, ForeignKey(TestJob.id), nullable=False)
+    user_id = Column('user_id', UUIDType, ForeignKey(User.id), nullable=False)
 
     fg_id = Column('fg_id', BigInteger, ForeignKey(FeatureGroup.id), nullable=True)
 
@@ -256,7 +257,7 @@ class TestResult(ModelBase, SerializableModel):
     """
     __tablename__ = 'test_result'
     
-    instance = Column('tstr_instance', UUIDType, nullable=False)
+    instance = Column('tstr_instance', UUIDType, nullable=False, primary_key=True)
     name =  Column('tstr_name', VARCHAR(1024), nullable=False)
     monikers = Column('tstr_monikers', Text, nullable=True)
     pivots = Column('tstr_pivots', Text, nullable=True)
@@ -277,13 +278,13 @@ class TestResultContainer(ModelBase, SerializableModel):
     """
     __tablename__ = 'test_result_container'
     
-    id = Column('tstrcont_id', BigInteger, primary_key=True)
+    id = Column('tstrcont_id', BigInteger, primary_key=True, autoincrement=True)
     name =  Column('tstrcont_name', VARCHAR(1024), nullable=False)
     instance = Column('tstrcont_instance', UUIDType, nullable=False)
     parent = Column('tstrcont_parent', UUIDType, nullable=True)
     rtype = Column('tstrcont_rtype', String(50), nullable=False)
 
-    testjob_id = Column('tj_id', VARCHAR(40), ForeignKey(TestJob.id))
+    testjob_id = Column('tj_id', UUIDType, ForeignKey(TestJob.id))
 
 
 class FeatureGroupMembership(ModelBase, SerializableModel):
@@ -293,7 +294,7 @@ class FeatureGroupMembership(ModelBase, SerializableModel):
     __tablename__ = "feature_group_membership"
     
     fg_id = Column('fg_id', BigInteger, ForeignKey(FeatureGroup.id), primary_key=True)
-    user_id = Column('user_id', VARCHAR(40), ForeignKey(User.id), primary_key=True)
+    user_id = Column('user_id', UUIDType, ForeignKey(User.id), primary_key=True)
 
     join_date = Column('fgm_join_date', DateTime, nullable=False)
     departure_date = Column('fgm_departure_date', DateTime, nullable=True)
