@@ -1,19 +1,27 @@
 
+__author__ = "Myron Walker"
+__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__credits__ = []
+__version__ = "1.0.0"
+
 from automojo.foundation.runtime.activation import activate_runtime, ActivationProfile
 
 from automojo.foundation.configuration.configurationmaps import resolve_configuration_maps
 from automojo.foundation.configuration.initialize import establish_configuration_settings
 from automojo.foundation.configuration.configurationvariables import resolve_configuration_variables
 
+
 from automojo.dataprofiles.wellknown import DataProfileManagerSingleton
 
-from pycis.core.storage.dbconnection import create_database_connection_factory
-from pycis.core.storage.dbio import database_exists, database_create
-from pycis.core.storage.orm import ModelBase
+
+from pychestrate.core.storage.dbconnection import create_database_connection_factory
+from pychestrate.core.storage.dbio import database_exists, database_create
+from pychestrate.core.storage.orm import PychestrateModelBase
+
 
 def create_database_main():
 
-    establish_configuration_settings()
+    establish_configuration_settings(name="pychestrate", home_dir="~/pychestrate")
 
     resolve_configuration_variables()
 
@@ -29,7 +37,7 @@ def create_database_main():
     dbname = "pipeline"
 
     if not database_exists(dbfactory, dbname):
-        database_create(dbfactory, dbname=dbname, dbmetadata=ModelBase.metadata)
+        database_create(dbfactory, dbname=dbname, dbmetadata=PychestrateModelBase.metadata)
 
     return
 
@@ -37,3 +45,4 @@ def create_database_main():
 if __name__ == "__main__":
 
     create_database_main()
+

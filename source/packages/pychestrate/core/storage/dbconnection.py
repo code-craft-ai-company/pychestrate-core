@@ -7,32 +7,26 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2024, Myron W Walker"
+__copyright__ = "Copyright 2025, Automation Mojo LLC"
 __credits__ = []
 __version__ = "1.0.0"
 
-from typing import Dict, Optional
-
+from typing import Optional
 
 import logging
 import os
 
-from urllib.parse import quote_plus
-
-
 from sqlalchemy import create_engine
 from sqlalchemy.engine.base import Engine as SqlEngine
-
 
 from automojo.errors.exceptions import ConfigurationError, NotOverloadedError
 
 from automojo.credentials.basecredential import BaseCredential
 from automojo.credentials.basiccredential import BasicCredential
+from automojo.credentials.wellknown import CredentialManagerSingleton
 
 from automojo.dataprofiles.databasebasicprofile import DatabaseBasicProfile
 from automojo.dataprofiles.databasebasictcpprofile import DatabaseBasicTcpProfile
-
-from automojo.credentials.wellknown import CredentialManagerSingleton
 
 
 logger = logging.getLogger()

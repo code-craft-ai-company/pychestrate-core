@@ -7,7 +7,7 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2024, Myron W Walker"
+__copyright__ = "Copyright 2025, Automation Mojo LLC"
 __credits__ = []
 __version__ = "1.0.0"
 
@@ -27,9 +27,9 @@ from sqlalchemy_utils import create_database as sqlutils_create_database
 
 from automojo.errors.exceptions import ConfigurationError
 
-from pycis.core.storage.orm import ModelBase
+from pychestrate.core.storage.orm import PychestrateModelBase
 
-from pycis.core.storage.dbconnection import DatabaseConnectionFactory, create_database_connection_factory
+from pychestrate.core.storage.dbconnection import DatabaseConnectionFactory, create_database_connection_factory
 
 
 logger = logging.getLogger()
@@ -82,7 +82,7 @@ def create_pycis_database(db_profile: Dict[str, str]):
 
     # TODO: Solidify the data model and the metadata base used
     # to create the database
-    ModelBase.metadata.create_all(engine, checkfirst=True)
+    PychestrateModelBase.metadata.create_all(engine, checkfirst=True)
 
     return
 
@@ -127,7 +127,7 @@ def reset_pycis_database(db_profile: Dict[str, str]):
             trans = con.begin()
             con.execute('TRUNCATE {} RESTART IDENTITY;'.format(
                 ','.join(table.name 
-                        for table in reversed(ModelBase.metadata.sorted_tables))))
+                        for table in reversed(PychestrateModelBase.metadata.sorted_tables))))
             trans.commit()
 
     return

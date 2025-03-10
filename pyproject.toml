@@ -23,12 +23,11 @@ sqlalchemy-utils = "^0.41.2"
 automojo-errors = { git = "git@github.com:automationmojo/automojo-errors.git", branch = "main" }
 automojo-credentials = { git = "git@github.com:automationmojo/automojo-credentials.git", branch = "main" }
 automojo-dataprofiles = { git = "git@github.com:automationmojo/automojo-dataprofiles.git", branch = "main" }
+pyyaml = "^6.0.2"
 
 
 [tool.poetry.group.dev.dependencies]
-myst-parser = "^0.18.1"
-sphinx = ">=1.6,<6"
-sphinx-rtd-theme = "^1.1.1"
+
 
 [build-system]
 requires = ["poetry-core"]

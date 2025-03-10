@@ -7,7 +7,7 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2024, Myron W Walker"
+__copyright__ = "Copyright 2025, Automation Mojo LLC"
 __credits__ = []
 __version__ = "1.0.0"
 
@@ -57,7 +57,7 @@ class SerializableModel:
         return json_str
 
 
-ModelBase = declarative_base()
+PychestrateModelBase = declarative_base()
 
 
 class RepositoryType(enum.Enum):
@@ -89,7 +89,7 @@ class WorkQueueState(enum.Enum):
     Disabled = 2
 
 
-class Repository(ModelBase, SerializableModel):
+class Repository(PychestrateModelBase, SerializableModel):
     """
         A data modelf for storing repository information.
     """
@@ -103,7 +103,7 @@ class Repository(ModelBase, SerializableModel):
     repoconf = Column('repo_conf', TEXT, nullable=False)
 
 
-class Branch(ModelBase, SerializableModel):
+class Branch(PychestrateModelBase, SerializableModel):
     """
         A data model for storing source branch information.
     """
@@ -117,7 +117,7 @@ class Branch(ModelBase, SerializableModel):
     repo_id = Column('repo_id', BigInteger, ForeignKey(Repository.id))
 
 
-class BuildResult(ModelBase, SerializableModel):
+class BuildResult(PychestrateModelBase, SerializableModel):
     """
         A data model for storing build information.
     """
@@ -133,7 +133,7 @@ class BuildResult(ModelBase, SerializableModel):
     branch_id = Column('branch_id', BigInteger, ForeignKey(Branch.id))
 
 
-class BuildByProduct(ModelBase, SerializableModel):
+class BuildByProduct(PychestrateModelBase, SerializableModel):
     """
         A data mode for linking build byproducts to build
     """
@@ -149,7 +149,7 @@ class BuildByProduct(ModelBase, SerializableModel):
     bldjob_id = Column('bldjob_id', BigInteger, ForeignKey(BuildResult.id))
 
 
-class User(ModelBase, SerializableModel):
+class User(PychestrateModelBase, SerializableModel):
     """
         A data model for the minimal amount of User information to store
         for relating automation data to an enterprise user.
@@ -165,7 +165,7 @@ class User(ModelBase, SerializableModel):
     ownertag = Column('user_ownertag', VARCHAR(40), nullable=True)
 
 
-class WorkQueue(ModelBase, SerializableModel):
+class WorkQueue(PychestrateModelBase, SerializableModel):
     """
         A data model for a
     """
@@ -178,7 +178,7 @@ class WorkQueue(ModelBase, SerializableModel):
     state = Column('queue_state', Enum(WorkQueueState), nullable=False)
 
 
-class WorkPacket(ModelBase, SerializableModel):
+class WorkPacket(PychestrateModelBase, SerializableModel):
     """
         A data model for a WorkPacket(s) and the work items that are part of a work queue.
     """
@@ -204,7 +204,7 @@ class WorkPacket(ModelBase, SerializableModel):
     user_id = Column('user_id', UUIDType, ForeignKey(User.id), nullable=False)
 
 
-class FeatureGroup(ModelBase, SerializableModel):
+class FeatureGroup(PychestrateModelBase, SerializableModel):
     """
         A data model for storing information about feature groups.
     """
@@ -215,7 +215,7 @@ class FeatureGroup(ModelBase, SerializableModel):
     description = Column('fg_description', TEXT, nullable=False)
 
 
-class TestJob(ModelBase, SerializableModel):
+class TestJob(PychestrateModelBase, SerializableModel):
     """
         A data model for storing information about test jobs and
         user and feature group associations with a given test job.
@@ -229,7 +229,7 @@ class TestJob(ModelBase, SerializableModel):
     owner_fg_id = Column('owner_fg_id', BigInteger, ForeignKey(FeatureGroup.id), nullable=True)
 
 
-class TestJobRun(ModelBase, SerializableModel):
+class TestJobRun(PychestrateModelBase, SerializableModel):
     """
         A data model for a TestJob run.
     """
@@ -251,7 +251,7 @@ class TestJobRun(ModelBase, SerializableModel):
     fg_id = Column('fg_id', BigInteger, ForeignKey(FeatureGroup.id), nullable=True)
 
 
-class TestResult(ModelBase, SerializableModel):
+class TestResult(PychestrateModelBase, SerializableModel):
     """
         A data model for a TestResult node that is part of a test result tree.
     """
@@ -270,7 +270,7 @@ class TestResult(ModelBase, SerializableModel):
     testrun = Column('tjr_instance', UUIDType, ForeignKey(TestJobRun.instance), nullable=True)
 
 
-class TestResultContainer(ModelBase, SerializableModel):
+class TestResultContainer(PychestrateModelBase, SerializableModel):
     """
         A data model for a TestResultContainer node that is part of a test result tree.  The
         TestResultContainer node serves as a parent and container for individual result based
@@ -287,7 +287,7 @@ class TestResultContainer(ModelBase, SerializableModel):
     testjob_id = Column('tj_id', UUIDType, ForeignKey(TestJob.id))
 
 
-class FeatureGroupMembership(ModelBase, SerializableModel):
+class FeatureGroupMembership(PychestrateModelBase, SerializableModel):
     """
         A data model for associating FeatureGroup(s) to Users(s)
     """
