@@ -139,12 +139,12 @@ class BuildByProduct(PychestrateModelBase, SerializableModel):
     """
     __tablename__ = "build_byproduct"
 
-    id = Column('byprod_id', BigInteger, primary_key=True)
-    product = Column('byprod_product', VARCHAR(128), nullable=False)
-    arch = Column('byprod_arch', VARCHAR(128), nullable=False)
-    buildno = Column('byprod_buildno', VARCHAR(128), nullable=False)
-    flavor = Column('byprod_flavor', VARCHAR(128), nullable=False)
-    result_url = Column('byprod_result_url', VARCHAR(2048), nullable=False) 
+    id = Column('bbp_id', BigInteger, primary_key=True)
+    product = Column('bbp_product', VARCHAR(128), nullable=False)
+    arch = Column('bbp_arch', VARCHAR(128), nullable=False)
+    buildno = Column('bbp_buildno', VARCHAR(128), nullable=False)
+    flavor = Column('bbp_flavor', VARCHAR(128), nullable=False)
+    result_url = Column('bbp_result_url', VARCHAR(2048), nullable=False) 
     
     bldjob_id = Column('bldjob_id', BigInteger, ForeignKey(BuildResult.id))
 

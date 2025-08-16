@@ -107,7 +107,7 @@ class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
 
         if dbname is None:
             warnmsg = "BasicTcpDatabaseConnectionFactory.create_engine: dbname was None."
-            logger.warn(warnmsg)
+            logger.warning(warnmsg)
 
         if isinstance(self.credential, BasicCredential):
             credobj: BasicCredential = self.credential
