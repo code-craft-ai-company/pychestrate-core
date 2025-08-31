@@ -25,6 +25,7 @@ from sqlalchemy.orm import declarative_base, relationship
 
 from sqlalchemy_utils.types.uuid import UUIDType
 
+from automojo.pychestrate.core.storage.defaults import utc_now
 
 class SerializableModel:
     """
@@ -59,6 +60,28 @@ class SerializableModel:
 
 
 PychestrateModelBase = declarative_base()
+
+
+class AccountStatus(str, enum.Enum):
+    """
+        Enum-like class to represent the status of a user or enterprise account.
+    """
+    ACTIVE = 'active'
+    INACTIVE = 'inactive'
+    SUSPENDED = 'suspended'
+    DELETED = 'deleted'
+
+    @classmethod
+    def is_valid(cls, status):
+        return status in (cls.ACTIVE, cls.INACTIVE, cls.SUSPENDED, cls.DELETED)
+
+
+class AuthenticationType(str, enum.Enum):
+    """
+        Enum-like class to represent the type of authentications that should be used to authenticate the user.
+    """
+    INTERNAL = 'internal'
+    OAUTH = 'oauth2'
 
 
 class RepositoryType(enum.Enum):
@@ -366,3 +389,26 @@ class FeatureGroupMembership(PychestrateModelBase, SerializableModel):
     feature_group = relationship('FeatureGroup', back_populates='memberships', lazy='selectin')
 
     user = relationship('User', back_populates='feature_groups', lazy='selectin')
+
+
+class User(PychestrateModelBase, SerializableModel):
+    """Represents a user authenticated through an OAuth provider."""
+
+    __tablename__ = "users"
+
+    id = Column('user_id', VARCHAR(40), primary_key=True)
+
+    provider = Column('user_provider', VARCHAR(50), nullable=True, doc="OAuth provider name (google, github, gitlab, microsoft, apple)")
+    provider_ref_id = Column('user_provider_ref_id', VARCHAR(255), nullable=False, index=True, doc="Unique identifier from the OAuth provider" \
+                             " (sub or id) for the user account")
+    firstname = Column('user_firstname', VARCHAR(255), nullable=False, doc="First name of the user, if provided")
+    lastname = Column('user_lastname', VARCHAR(255), nullable=False, doc="Last name of the user, if provided")
+    display_name = Column('user_display_name', VARCHAR(255), nullable=True, doc="Display name of the user")
+    username = Column('user_username', VARCHAR(255), nullable=False, doc="Username of the user, if provided")
+    email = Column('user_email', VARCHAR(255), nullable=False, doc="Email address associated with the account")
+    avatar_uri = Column('user_avatar_uri', VARCHAR(1024), nullable=True, doc="URI of the user's avatar or profile picture")
+    status = Column('user_status', VARCHAR(20), nullable=False, default='active', doc="Status of the user account (e.g., 'active', 'inactive')")
+    roles = Column('user_roles', VARCHAR(1024), nullable=True, doc="Comma-separated list of roles assigned to the user (e.g., 'admin,user')")
+    authtype = Column('user_authtype', VARCHAR(20), nullable=False, default='consumer', doc="Type of user (e.g., 'internal', 'consumer')")
+    created_at = Column('user_created_at', DateTime, default=utc_now, nullable=False, doc="Timestamp when the user record was created")
+    updated_at = Column('user_updated_at', DateTime, default=utc_now, onupdate=utc_now, nullable=False, doc="Timestamp when the user record was last updated")

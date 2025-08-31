@@ -14,9 +14,9 @@ from automojo.foundation.configuration.configurationvariables import resolve_con
 from automojo.dataprofiles.wellknown import DataProfileManagerSingleton
 
 
-from pychestrate.core.storage.dbconnection import create_database_connection_factory
-from pychestrate.core.storage.dbio import database_exists, database_create
-from pychestrate.core.storage.orm import PychestrateModelBase
+from automojo.pychestrate.core.storage.dbconnection import create_database_connection_factory
+from automojo.pychestrate.core.storage.dbio import database_exists, database_create
+from automojo.pychestrate.core.storage.orm import PychestrateModelBase
 
 
 def create_database_main():

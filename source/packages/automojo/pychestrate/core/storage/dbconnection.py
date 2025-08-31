@@ -23,9 +23,9 @@ from automojo.errors.exceptions import ConfigurationError, NotOverloadedError
 
 from automojo.credentials.basecredential import BaseCredential
 from automojo.credentials.basiccredential import BasicCredential
-from automojo.credentials.wellknown import CredentialManagerSingleton
+from automojo.credentials.credentialmanager import CredentialManager
 
-from automojo.dataprofiles.databasebasicprofile import DatabaseBasicProfile
+from automojo.dataprofiles.databasebasicsocketprofile import DatabaseBasicSocketProfile
 from automojo.dataprofiles.databasebasictcpprofile import DatabaseBasicTcpProfile
 
 
@@ -34,7 +34,7 @@ logger = logging.getLogger()
 
 class DatabaseConnectionFactory:
 
-    def __init__(self, profile_name: str, *, dbprofile: DatabaseBasicProfile, credential: BaseCredential):
+    def __init__(self, profile_name: str, *, dbprofile: DatabaseBasicSocketProfile, credential: BaseCredential):
         self._profile_name = profile_name
         self._dbprofile = dbprofile
         self._credential = credential
@@ -45,7 +45,7 @@ class DatabaseConnectionFactory:
         return self._credential
     
     @property
-    def dbprofile(self) -> DatabaseBasicProfile:
+    def dbprofile(self) -> DatabaseBasicSocketProfile:
         return self._dbprofile
     
     @property
@@ -54,22 +54,89 @@ class DatabaseConnectionFactory:
 
     def create_engine(self, *, dbname=None, echo=True) -> SqlEngine:
         errmsg = "The 'create_engine' method must be overloaded by 'DatabaseConnectionFactory' derived types."
-        raise NotOverloadedError(errmsg)
+        raise NotImplementedError(errmsg)
     
     def format_connection_string() -> str:
         errmsg = "The 'format_connection_string' method must be overloaded by 'DatabaseConnectionFactory' derived types."
-        raise NotOverloadedError(errmsg)
+        raise NotImplementedError(errmsg)
 
 
-class BasicDatabaseConnectionFactory(DatabaseConnectionFactory):
+class BasicSocketDatabaseConnectionFactory(DatabaseConnectionFactory):
 
-    def __init__(self, profile_name: str, *, dbprofile: DatabaseBasicProfile, credential: BaseCredential):
+    def __init__(self, profile_name: str, *, dbprofile: DatabaseBasicSocketProfile, credential: BaseCredential):
         super().__init__(profile_name, dbprofile=dbprofile, credential=credential)
         return
 
     def create_engine(self, *, dbname=None, echo=True) -> SqlEngine:
-        # TODO: Implement pipe based DB connection engine creation
-        return
+        """Create a SQLAlchemy engine using pipe based connectivity."""
+
+        socket_path: str = self.dbprofile.socket
+
+        if dbname is None and self.dbprofile.dbname is not None:
+            dbname = self.dbprofile.dbname
+
+        if dbname is None:
+            warnmsg = "BasicSocketDatabaseConnectionFactory.create_engine: dbname was None."
+            logger.warn(warnmsg)
+
+        if isinstance(self.credential, BasicCredential):
+            connstr = self.format_connection_string(dbname=dbname)
+            dbengine = create_engine(connstr, echo=echo)
+        else:
+            errmsg = (
+                "BasicSocketDatabaseConnectionFactory requires a BasicCredential to "
+                "create an engine."
+            )
+            raise ConfigurationError(errmsg)
+
+        return dbengine
+
+    def get_connection_scheme(self):
+        """Return the SQLAlchemy connection scheme for the profile."""
+
+        conn_scheme = None
+
+        if self.dbprofile.dbtype == "postgresql":
+            try:
+                import psycopg2  # noqa: F401
+            except ImportError:
+                errmsg_lines = [
+                    "In order to create a postgresql database engine, you must install the following dependencies.",
+                    "DEPENDENCIES",
+                    "    psycopg2",
+                ]
+                errmsg = os.linesep.join(errmsg_lines)
+                raise ConfigurationError(errmsg)
+
+            conn_scheme = "postgresql+psycopg2"
+
+        return conn_scheme
+
+    def format_connection_string(self, dbname: Optional[str] = None) -> str:
+        """Build a connection string for pipe based access."""
+
+        conn_scheme: str = self.get_connection_scheme()
+
+        socket_path: str = self.dbprofile.socket
+
+        if not isinstance(self.credential, BasicCredential):
+            errmsg = (
+                "BasicSocketDatabaseConnectionFactory requires a BasicCredential to "
+                "format the connection string."
+            )
+            raise ConfigurationError(errmsg)
+
+        credobj: BasicCredential = self.credential
+
+        username = credobj.username
+        password = credobj.password
+
+        if dbname is None:
+            dbname = self.dbprofile.dbname
+
+        conn_str = f"{conn_scheme}://{username}:{password}@/{dbname}?host={socket_path}"
+
+        return conn_str
 
 
 class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
@@ -107,7 +174,7 @@ class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
 
         if dbname is None:
             warnmsg = "BasicTcpDatabaseConnectionFactory.create_engine: dbname was None."
-            logger.warning(warnmsg)
+            logger.warn(warnmsg)
 
         if isinstance(self.credential, BasicCredential):
             credobj: BasicCredential = self.credential
@@ -170,7 +237,7 @@ class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
 DATABASE_CONNECTION_FACTORIES = {}
 
 
-def create_database_connection_factory(dbprofile: DatabaseBasicProfile) -> DatabaseConnectionFactory:
+def create_database_connection_factory(dbprofile: DatabaseBasicSocketProfile, cred_manager: CredentialManager) -> DatabaseConnectionFactory:
 
     global DATABASE_CONNECTION_FACTORIES
 
@@ -185,13 +252,11 @@ def create_database_connection_factory(dbprofile: DatabaseBasicProfile) -> Datab
 
         credential_name = dbprofile.credential
 
-        credmgr = CredentialManagerSingleton()
-
-        credential: BaseCredential = credmgr.credentials[credential_name]
+        credential: BaseCredential = cred_manager.credentials[credential_name]
 
         category = dbprofile.category
-        if category == "basic":
-            conn_factory = BasicDatabaseConnectionFactory(profile_name, dbprofile=dbprofile, credential=credential)
+        if category == "basic-socket":
+            conn_factory = BasicSocketDatabaseConnectionFactory(profile_name, dbprofile=dbprofile, credential=credential)
         elif category == "basic-tcp":
             conn_factory = BasicTcpDatabaseConnectionFactory(profile_name, dbprofile=dbprofile, credential=credential)
         else:

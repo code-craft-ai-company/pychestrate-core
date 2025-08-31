@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pychestrate-core"
-description = "Pychestrate - Core"
+description = "Automation Mojo - Pychestrate - Core"
 version = "0.0.1"
 authors = []
 readme = "README.rst"

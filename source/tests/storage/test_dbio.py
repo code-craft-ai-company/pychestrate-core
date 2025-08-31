@@ -1,7 +1,7 @@
 
 import unittest
 
-from pycis.core.storage.dbconnection import create_database_connection_factory
+from automojo.pychestrate.core.storage.dbconnection import create_database_connection_factory
 
 class DbIOTests(unittest.TestCase):
 
