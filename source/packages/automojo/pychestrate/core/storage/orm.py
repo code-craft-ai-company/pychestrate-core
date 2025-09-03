@@ -124,6 +124,20 @@ class WorkPacketStatus(enum.Enum):
     BLOCKED = "BLOCKED"
 
 
+class BuildTemplate(PychestrateModelBase, SerializableModel):
+    """
+        A data model that stores global build job templates.
+    """
+
+    __tablename__ = "build_template"
+
+    id = Column('btmp_id', BigInteger, primary_key=True, autoincrement=True)
+    name = Column('btmp_name', VARCHAR(128), nullable=False, unique=True)
+    description = Column('btmp_description', Text, nullable=True)
+    specification = Column('btmp_specification', JSON, nullable=False)
+
+
+
 class Repository(PychestrateModelBase, SerializableModel):
     """
         A data modelf for storing repository information.
@@ -159,7 +173,28 @@ class Branch(PychestrateModelBase, SerializableModel):
 
     repository = relationship('Repository', back_populates='branches', lazy='selectin')
 
+    build_jobs = relationship('BuildJob', back_populates='branch', cascade='all, delete-orphan', lazy='selectin')
     build_results = relationship('BuildResult', back_populates='branch', cascade='all, delete-orphan', lazy='selectin')
+
+
+class BuildJob(PychestrateModelBase, SerializableModel):
+    """
+        A data model for storing build job information.
+    """
+
+    __tablename__ = "build_job"
+
+    id = Column('bjob_id', BigInteger, primary_key=True, autoincrement=True)
+    name = Column('bjob_name', VARCHAR(128), nullable=False)
+    start = Column('bjob_start', DateTime(timezone=True), nullable=False, server_default=func.now())
+    stop = Column('bjob_stop', DateTime(timezone=True), nullable=True)
+    change = Column('bjob_change', VARCHAR(128), nullable=False)
+    status = Column('bjob_status', Enum(WorkPacketStatus, name='build_job_status', native_enum=False), nullable=False, default=WorkPacketStatus.QUEUED)
+
+    branch_id = Column('branch_id', BigInteger, ForeignKey('branch.branch_id'), nullable=False, index=True)
+
+    branch = relationship('Branch', back_populates='build_jobs', lazy='selectin')
+    result = relationship('BuildResult', back_populates='job', uselist=False, cascade='all, delete-orphan', lazy='selectin')
 
 
 class BuildResult(PychestrateModelBase, SerializableModel):
@@ -176,8 +211,10 @@ class BuildResult(PychestrateModelBase, SerializableModel):
     change = Column('build_change', VARCHAR(128), nullable=False)
 
     branch_id = Column('branch_id', BigInteger, ForeignKey('branch.branch_id'), nullable=False, index=True)
+    job_id = Column('bjob_id', BigInteger, ForeignKey('build_job.bjob_id'), nullable=True, index=True)
 
     branch = relationship('Branch', back_populates='build_results', lazy='selectin')
+    job = relationship('BuildJob', back_populates='result', lazy='selectin')
 
     byproducts = relationship('BuildByProduct', back_populates='build', cascade='all, delete-orphan', lazy='selectin')
 
