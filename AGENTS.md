@@ -7,14 +7,14 @@ The 'pychstrate-core' package contains common or shared types and code such as d
 # Testing Conventions
 The 'pychestrate-core' package repository utilizes the 'testbase' framework in order to run tests.  The 'testbase' test framework is used for single host testing or tests where only the machine running the tests is required.
 
-Test are organized at the lowest level by resource configuration.  For example, all the single host tests are in the folder 'source/testroots/automojo/tests/pychestrate/core/singlehost'.
+Test are organized at the lowest level by resource configuration.  For example, all the single host tests are in the folder 'source/testroots/automojo/tests/pychestrate/singlehost/core'.
 
 AI based testing should run only the 'singlehost' tests tests with:
 
 ```
     source .venv/bin/activate
     
-    testbase testing run --root source/testroots/automojo --includes=automojo.tests.pychestrate.core.singlehost --output=<desired output folder>
+    testbase testing run --root source/testroots/automojo --includes=automojo.tests.pychestrate.singlehost --output=<desired output folder>
 ```
 
 When running tests you should create an output folder in order to be able to capture all the test run artifacts in an isolated folder.
