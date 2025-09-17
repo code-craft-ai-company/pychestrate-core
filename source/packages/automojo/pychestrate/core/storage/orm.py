@@ -124,9 +124,22 @@ class WorkPacketStatus(enum.Enum):
     BLOCKED = "BLOCKED"
 
 
-class BuildTemplate(PychestrateModelBase, SerializableModel):
+class BuildJobTemplate(PychestrateModelBase, SerializableModel):
     """
         A data model that stores global build job templates.
+    """
+
+    __tablename__ = "buildjob_template"
+
+    id = Column('bjtmp_id', BigInteger, primary_key=True, autoincrement=True)
+    name = Column('bjtmp_name', VARCHAR(128), nullable=False, unique=True)
+    description = Column('bjtmp_description', Text, nullable=True)
+    specification = Column('bjtmp_specification', JSON, nullable=False)
+
+
+class BuildTemplate(PychestrateModelBase, SerializableModel):
+    """
+        A data model that stores global build templates.
     """
 
     __tablename__ = "build_template"
@@ -135,6 +148,19 @@ class BuildTemplate(PychestrateModelBase, SerializableModel):
     name = Column('btmp_name', VARCHAR(128), nullable=False, unique=True)
     description = Column('btmp_description', Text, nullable=True)
     specification = Column('btmp_specification', JSON, nullable=False)
+
+
+class TestJobTemplate(PychestrateModelBase, SerializableModel):
+    """
+        A data model that stores global test job templates.
+    """
+
+    __tablename__ = "testjob_template"
+
+    id = Column('tjtmp_id', BigInteger, primary_key=True, autoincrement=True)
+    name = Column('tjtmp_name', VARCHAR(128), nullable=False, unique=True)
+    description = Column('tjtmp_description', Text, nullable=True)
+    specification = Column('tjtmp_specification', JSON, nullable=False)
 
 
 
