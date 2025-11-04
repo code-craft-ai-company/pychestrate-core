@@ -17,7 +17,21 @@ import json
 import uuid
 
 
-from sqlalchemy import BigInteger, Column, DateTime, Enum, Float, String, Text, VARCHAR, ForeignKey, TEXT, UniqueConstraint
+from sqlalchemy import (
+    BigInteger,
+    Boolean,
+    Column,
+    DateTime,
+    Enum,
+    Float,
+    Integer,
+    String,
+    Text,
+    VARCHAR,
+    ForeignKey,
+    TEXT,
+    UniqueConstraint,
+)
 from sqlalchemy import inspect, func, text
 from sqlalchemy.types import JSON
 
@@ -268,6 +282,16 @@ class ReleaseTrain(PychestrateModelBase, SerializableModel):
     )
 
 
+class ReleaseTrainBranchType(str, enum.Enum):
+    """Enumerates the logical role a symbolic branch plays within a release train."""
+
+    TEAM = "team"
+    INTEGRATION = "integration"
+    MAINLINE = "mainline"
+    SUPPORT = "support"
+    OTHER = "other"
+
+
 class ReleaseTrainBranch(PychestrateModelBase, SerializableModel):
     """Symbolic branches that define the flow of a release train."""
 
@@ -280,6 +304,15 @@ class ReleaseTrainBranch(PychestrateModelBase, SerializableModel):
     id = Column("rtbranch_id", BigInteger, primary_key=True, autoincrement=True)
     name = Column("rtbranch_name", VARCHAR(128), nullable=False)
     description = Column("rtbranch_description", Text, nullable=True)
+    branch_type = Column(
+        "rtbranch_type",
+        Enum(ReleaseTrainBranchType, name="release_train_branch_type", native_enum=False),
+        nullable=False,
+        default=ReleaseTrainBranchType.OTHER,
+    )
+    display_order = Column("rtbranch_display_order", Integer, nullable=False, default=0)
+    is_terminal = Column("rtbranch_is_terminal", Boolean, nullable=False, default=False)
+    metadata_payload = Column("rtbranch_metadata", JSON, nullable=True)
 
     release_train_id = Column(
         "rtrain_id", BigInteger, ForeignKey("release_train.rtrain_id"), nullable=False, index=True
@@ -296,7 +329,11 @@ class ReleaseTrainBranch(PychestrateModelBase, SerializableModel):
     parent = relationship(
         "ReleaseTrainBranch",
         remote_side=lambda: [ReleaseTrainBranch.id],
-        backref=backref("children", lazy="selectin"),
+        backref=backref(
+            "children",
+            lazy="selectin",
+            order_by="ReleaseTrainBranch.display_order",
+        ),
         lazy="selectin",
     )
 
