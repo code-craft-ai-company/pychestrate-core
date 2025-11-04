@@ -85,12 +85,17 @@ class AuthenticationType(str, enum.Enum):
 
 
 class RepositoryType(enum.Enum):
-    """
-        An enumeration that indicates the JobType of a WorkQueue item.  This indicates if a
-        work item is a global work item available for execution on any qualified work site or
-        if it is a local work item which is meant to execute locally.
-    """
-    GitHub = 1
+    """Enumeration describing the primary content maintained by a repository."""
+
+    CODE = "code"
+    DOCUMENTATION = "documentation"
+
+
+class RepositoryScope(enum.Enum):
+    """Enumeration describing the scope of artifacts provided by a repository."""
+
+    PRODUCT = "product"
+    LOCAL = "local"
 
 
 class WorkQueueJobType(enum.Enum):
@@ -164,6 +169,23 @@ class TestJobTemplate(PychestrateModelBase, SerializableModel):
 
 
 
+class Product(PychestrateModelBase, SerializableModel):
+    """A data model that represents a product composed from multiple repositories."""
+
+    __tablename__ = "product"
+
+    id = Column("prod_id", BigInteger, primary_key=True, autoincrement=True)
+    name = Column("prod_name", VARCHAR(128), nullable=False, unique=True)
+    description = Column("prod_description", Text, nullable=True)
+
+    repositories = relationship(
+        "Repository",
+        back_populates="product",
+        cascade="all, delete-orphan",
+        lazy="selectin",
+    )
+
+
 class Repository(PychestrateModelBase, SerializableModel):
     """
         A data modelf for storing repository information.
@@ -177,8 +199,11 @@ class Repository(PychestrateModelBase, SerializableModel):
     name = Column('repo_name', VARCHAR(128), nullable=False)
     url = Column('repo_repository', VARCHAR(2048), nullable=False, unique=True)
     repotype = Column('repo_type', Enum(RepositoryType, name='repository_type', native_enum=False), nullable=False)
+    scope = Column('repo_scope', Enum(RepositoryScope, name='repository_scope', native_enum=False), nullable=False)
     repoconf = Column('repo_conf', JSON, nullable=False)
+    product_id = Column('prod_id', BigInteger, ForeignKey('product.prod_id'), nullable=False, index=True)
 
+    product = relationship('Product', back_populates='repositories', lazy='selectin')
     branches = relationship('Branch', back_populates='repository', cascade='all, delete-orphan', lazy='selectin')
 
 
