@@ -21,7 +21,7 @@ from sqlalchemy import BigInteger, Column, DateTime, Enum, Float, String, Text, 
 from sqlalchemy import inspect, func, text
 from sqlalchemy.types import JSON
 
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import declarative_base, relationship, backref
 
 from sqlalchemy_utils.types.uuid import UUIDType
 
@@ -170,7 +170,7 @@ class TestJobTemplate(PychestrateModelBase, SerializableModel):
 
 
 class Product(PychestrateModelBase, SerializableModel):
-    """A data model that represents a product composed from multiple repositories."""
+    """A data model that represents a product composed from multiple components."""
 
     __tablename__ = "product"
 
@@ -178,12 +178,199 @@ class Product(PychestrateModelBase, SerializableModel):
     name = Column("prod_name", VARCHAR(128), nullable=False, unique=True)
     description = Column("prod_description", Text, nullable=True)
 
-    repositories = relationship(
-        "Repository",
+    components = relationship(
+        "ProductComponent",
         back_populates="product",
         cascade="all, delete-orphan",
         lazy="selectin",
     )
+
+    product_repositories = relationship(
+        "ProductToRepository",
+        back_populates="product",
+        cascade="all, delete-orphan",
+        lazy="selectin",
+    )
+
+    releases = relationship(
+        "Release",
+        back_populates="product",
+        cascade="all, delete-orphan",
+        lazy="selectin",
+    )
+
+
+class ProductComponent(PychestrateModelBase, SerializableModel):
+    """Represents a component of a product that maps to a source repository."""
+
+    __tablename__ = "product_component"
+
+    __table_args__ = (
+        UniqueConstraint("prod_id", "comp_name", name="uq_component_product_name"),
+    )
+
+    id = Column("comp_id", BigInteger, primary_key=True, autoincrement=True)
+    name = Column("comp_name", VARCHAR(128), nullable=False)
+    description = Column("comp_description", Text, nullable=True)
+
+    product_id = Column(
+        "prod_id", BigInteger, ForeignKey("product.prod_id"), nullable=False, index=True
+    )
+    repository_id = Column(
+        "repo_id", BigInteger, ForeignKey("repository.repo_id"), nullable=False, index=True
+    )
+
+    product = relationship("Product", back_populates="components", lazy="selectin")
+    repository = relationship("Repository", back_populates="components", lazy="selectin")
+
+
+class ProductToRepository(PychestrateModelBase, SerializableModel):
+    """Associates product level repositories such as documentation with a product."""
+
+    __tablename__ = "product_to_repository"
+
+    __table_args__ = (
+        UniqueConstraint("prod_id", "repo_id", name="uq_product_repository"),
+    )
+
+    id = Column("ptor_id", BigInteger, primary_key=True, autoincrement=True)
+    product_id = Column(
+        "prod_id", BigInteger, ForeignKey("product.prod_id"), nullable=False, index=True
+    )
+    repository_id = Column(
+        "repo_id", BigInteger, ForeignKey("repository.repo_id"), nullable=False, index=True
+    )
+
+    product = relationship("Product", back_populates="product_repositories", lazy="selectin")
+    repository = relationship("Repository", back_populates="product_links", lazy="selectin")
+
+
+class ReleaseTrain(PychestrateModelBase, SerializableModel):
+    """Represents the symbolic branch structure used to orchestrate a release train."""
+
+    __tablename__ = "release_train"
+
+    id = Column("rtrain_id", BigInteger, primary_key=True, autoincrement=True)
+    name = Column("rtrain_name", VARCHAR(128), nullable=False, unique=True)
+    description = Column("rtrain_description", Text, nullable=True)
+
+    branches = relationship(
+        "ReleaseTrainBranch",
+        back_populates="train",
+        cascade="all, delete-orphan",
+        lazy="selectin",
+    )
+
+    releases = relationship(
+        "Release",
+        back_populates="release_train",
+        lazy="selectin",
+    )
+
+
+class ReleaseTrainBranch(PychestrateModelBase, SerializableModel):
+    """Symbolic branches that define the flow of a release train."""
+
+    __tablename__ = "release_train_branch"
+
+    __table_args__ = (
+        UniqueConstraint("rtrain_id", "rtbranch_name", name="uq_release_train_branch"),
+    )
+
+    id = Column("rtbranch_id", BigInteger, primary_key=True, autoincrement=True)
+    name = Column("rtbranch_name", VARCHAR(128), nullable=False)
+    description = Column("rtbranch_description", Text, nullable=True)
+
+    release_train_id = Column(
+        "rtrain_id", BigInteger, ForeignKey("release_train.rtrain_id"), nullable=False, index=True
+    )
+    parent_id = Column(
+        "parent_rtbranch_id",
+        BigInteger,
+        ForeignKey("release_train_branch.rtbranch_id"),
+        nullable=True,
+        index=True,
+    )
+
+    train = relationship("ReleaseTrain", back_populates="branches", lazy="selectin")
+    parent = relationship(
+        "ReleaseTrainBranch",
+        remote_side=lambda: [ReleaseTrainBranch.id],
+        backref=backref("children", lazy="selectin"),
+        lazy="selectin",
+    )
+
+    branch_assignments = relationship(
+        "ReleaseBranchAssignment",
+        back_populates="symbolic_branch",
+        cascade="all, delete-orphan",
+        lazy="selectin",
+    )
+
+
+class Release(PychestrateModelBase, SerializableModel):
+    """Represents a release of a product built from a release train."""
+
+    __tablename__ = "release"
+
+    __table_args__ = (
+        UniqueConstraint("prod_id", "release_name", name="uq_release_product_name"),
+    )
+
+    id = Column("release_id", BigInteger, primary_key=True, autoincrement=True)
+    name = Column("release_name", VARCHAR(128), nullable=False)
+    description = Column("release_description", Text, nullable=True)
+    documentation_url = Column("release_documentation_url", VARCHAR(2048), nullable=True)
+    start_date = Column("release_start_date", DateTime(timezone=True), nullable=True)
+    release_date = Column("release_release_date", DateTime(timezone=True), nullable=True)
+
+    product_id = Column(
+        "prod_id", BigInteger, ForeignKey("product.prod_id"), nullable=False, index=True
+    )
+    release_train_id = Column(
+        "rtrain_id", BigInteger, ForeignKey("release_train.rtrain_id"), nullable=True, index=True
+    )
+
+    product = relationship("Product", back_populates="releases", lazy="selectin")
+    release_train = relationship("ReleaseTrain", back_populates="releases", lazy="selectin")
+
+    branch_assignments = relationship(
+        "ReleaseBranchAssignment",
+        back_populates="release",
+        cascade="all, delete-orphan",
+        lazy="selectin",
+    )
+
+
+class ReleaseBranchAssignment(PychestrateModelBase, SerializableModel):
+    """Maps a symbolic release train branch to a literal branch name for a release."""
+
+    __tablename__ = "release_branch_assignment"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "release_id",
+            "rtbranch_id",
+            name="uq_release_branch_assignment",
+        ),
+    )
+
+    id = Column("rba_id", BigInteger, primary_key=True, autoincrement=True)
+    literal_branch_name = Column("rba_literal_branch_name", VARCHAR(256), nullable=False)
+
+    release_id = Column(
+        "release_id", BigInteger, ForeignKey("release.release_id"), nullable=False, index=True
+    )
+    release_train_branch_id = Column(
+        "rtbranch_id",
+        BigInteger,
+        ForeignKey("release_train_branch.rtbranch_id"),
+        nullable=False,
+        index=True,
+    )
+
+    release = relationship("Release", back_populates="branch_assignments", lazy="selectin")
+    symbolic_branch = relationship("ReleaseTrainBranch", back_populates="branch_assignments", lazy="selectin")
 
 
 class Repository(PychestrateModelBase, SerializableModel):
@@ -201,9 +388,8 @@ class Repository(PychestrateModelBase, SerializableModel):
     repotype = Column('repo_type', Enum(RepositoryType, name='repository_type', native_enum=False), nullable=False)
     scope = Column('repo_scope', Enum(RepositoryScope, name='repository_scope', native_enum=False), nullable=False)
     repoconf = Column('repo_conf', JSON, nullable=False)
-    product_id = Column('prod_id', BigInteger, ForeignKey('product.prod_id'), nullable=False, index=True)
-
-    product = relationship('Product', back_populates='repositories', lazy='selectin')
+    product_links = relationship('ProductToRepository', back_populates='repository', cascade='all, delete-orphan', lazy='selectin')
+    components = relationship('ProductComponent', back_populates='repository', lazy='selectin')
     branches = relationship('Branch', back_populates='repository', cascade='all, delete-orphan', lazy='selectin')
 
 
