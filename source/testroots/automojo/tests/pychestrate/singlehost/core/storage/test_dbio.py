@@ -3,8 +3,12 @@ import automojo.testbase as testbase
 from automojo.errors.exceptions import SkipError
 
 try:
+    from automojo.credentials.credentialmanager import CredentialManager
+    from automojo.dataprofiles.databasebasicsocketprofile import DatabaseBasicSocketProfile
     from automojo.pychestrate.core.storage.dbconnection import create_database_connection_factory
 except Exception:  # pragma: no cover
+    CredentialManager = None
+    DatabaseBasicSocketProfile = None
     create_database_connection_factory = None
 
 
@@ -16,12 +20,33 @@ def test_create_database_connection_factory():
         skip_exc.bug = None
         raise skip_exc
 
-    profile = {
-        "name": "blah",
-        "conntype": "basic",
+    credential_identifier = "test-basic-credential"
+
+    credential_info = {
+        "credentials": [
+            {
+                "identifier": credential_identifier,
+                "category": "basic",
+                "username": "testuser",
+                "password": "testpassword",
+            }
+        ]
     }
 
-    factory = create_database_connection_factory(profile)
+    cred_manager = CredentialManager()
+    cred_manager.load_credentials(credential_info=credential_info)
+
+    dbprofile = DatabaseBasicSocketProfile(
+        "test-basic-socket-profile",
+        category="basic-socket",
+        dbtype="postgresql",
+        dbname="testdb",
+        socket="/tmp/test-db.socket",
+        credential=credential_identifier,
+    )
+
+    factory = create_database_connection_factory(dbprofile=dbprofile, cred_manager=cred_manager)
+
     testbase.assert_not_equal(factory, None)
 
     return

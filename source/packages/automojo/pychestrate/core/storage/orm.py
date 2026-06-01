@@ -702,7 +702,7 @@ class FeatureGroupMembership(PychestrateModelBase, SerializableModel):
     user = relationship('User', back_populates='feature_groups', lazy='selectin')
 
 
-class User(PychestrateModelBase, SerializableModel):
+class OauthUser(PychestrateModelBase, SerializableModel):
     """Represents a user authenticated through an OAuth provider."""
 
     __tablename__ = "users"
