@@ -19,7 +19,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.engine.base import Engine as SqlEngine
 
-from automojo.errors.exceptions import ConfigurationError, NotOverloadedError
+from automojo.errors.exceptions import ConfigurationError
 
 from automojo.credentials.basecredential import BaseCredential
 from automojo.credentials.basiccredential import BasicCredential
