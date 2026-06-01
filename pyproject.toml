@@ -20,7 +20,7 @@ python = ">=3.10,<4.0"
 pyyaml = "^6.0.2"
 psycopg2-binary = "^2.9.9"
 sqlalchemy = "^2.0.30"
-sqlalchemy-utils = "^0.41.2"
+sqlalchemy-utils = ">=0.41.2,<0.43.0"
 automojo-errors = { git = "https://github.com/automationmojo/automojo-errors.git", branch = "main" }
 automojo-runtime = { git = "https://github.com/automationmojo/automojo-runtime.git", branch = "main" }
 automojo-credentials = { git = "https://github.com/automationmojo/automojo-credentials.git", branch = "main" }
