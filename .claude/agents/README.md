@@ -18,6 +18,20 @@ and enforce the coding standards in `userguide/`.
 | `pychestrate-releases` | Releases domain | `ReleaseTrain`, `ReleaseTrainBranch`, `Release`, `ReleaseBranchAssignment`, train topology. |
 | `pychestrate-storage` | Storage / persistence | `dbconnection`, `dbio`, ORM bases/mixins (`PychestrateModelBase`, `SerializableModel`), `defaults`. |
 
+## Product Owners (requirements)
+
+Per-area Product Owners own the *what/why* — requirements, user workflows, personas,
+and acceptance criteria — and maintain the specs under `specs/`. Each pairs with the
+code agent of the same area (the *how*).
+
+| Agent | Area | Owns spec |
+|-------|------|-----------|
+| `po-projects` | Projects | `specs/projects-requirements.md` |
+| `po-builds` | Builds | `specs/builds-requirements.md` |
+| `po-testing` | Testing | `specs/testing-requirements.md` |
+| `po-resources` | Resources / execution | `specs/resources-requirements.md` |
+| `po-releases` | Releases | `specs/releases-requirements.md` |
+
 ## How to use
 
 - For multi-area or unscoped work, start with **`pychestrate-lead`** — it plans and
