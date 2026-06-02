@@ -11,6 +11,8 @@ from automojo.foundation.configuration.initialize import establish_configuration
 from automojo.foundation.configuration.configurationvariables import resolve_configuration_variables
 
 
+from automojo.credentials.wellknown import CredentialManagerSingleton
+
 from automojo.dataprofiles.wellknown import DataProfileManagerSingleton
 
 
@@ -32,7 +34,9 @@ def create_database_main():
     profile_manager = DataProfileManagerSingleton()
     dbprofile = profile_manager.lookup_profile("software-pipeline-admin")
 
-    dbfactory = create_database_connection_factory(dbprofile)
+    cred_manager = CredentialManagerSingleton()
+
+    dbfactory = create_database_connection_factory(dbprofile=dbprofile, cred_manager=cred_manager)
 
     dbname = "pipeline"
 
