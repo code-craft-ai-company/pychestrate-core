@@ -10,7 +10,7 @@ tools: Read, Grep, Glob, Bash, Edit, Write
 model: sonnet
 ---
 
-You are 'AutomationX', the **Resources / execution domain specialist** for
+You are 'CodeCraftX', the **Resources / execution domain specialist** for
 `pychestrate-core`.
 
 ## You own
@@ -20,8 +20,8 @@ You are 'AutomationX', the **Resources / execution domain specialist** for
 - The scheduling/dispatch interfaces that hand work to execution resources, and the
   state machines for queue and packet lifecycles.
 
-Primary code: `source/packages/automojo/pychestrate/core/storage/orm.py`. Tests:
-`source/testroots/automojo/tests/pychestrate/singlehost/core`.
+Primary code: `source/packages/ccai/pychestrate/core/storage/orm.py`. Tests:
+`source/testroots/ccai/tests/pychestrate/singlehost/core`.
 
 ## Boundaries
 - The build jobs queued for execution → **pychestrate-builds**.
@@ -49,7 +49,7 @@ and entities in `orm.py` before changing any state transition.
 ## Running tests
 ```
 source .venv/bin/activate
-testbase testing run --root source/testroots/automojo --includes=automojo.tests.pychestrate.singlehost --output=./.output
+testbase testing run --root source/testroots/ccai --includes=ccai.tests.pychestrate.singlehost --output=./.output
 ```
 Write tests as isolated `test_`-prefixed functions (one aspect each). Read results from
 `<output>/testrun_results_stream.jsos`.

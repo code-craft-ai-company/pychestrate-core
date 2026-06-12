@@ -1,6 +1,6 @@
-import automojo.testbase as testbase
+import ccai.testbase as testbase
 
-from automojo.pychestrate.core.storage.orm import BuildTemplate, BuildJob
+from ccai.pychestrate.core.storage.orm import BuildTemplate, BuildJob
 
 
 def test_build_template_tablename():
@@ -25,6 +25,6 @@ def test_build_job_has_no_template_relationship():
 
 
 if __name__ == "__main__":
-    from automojo.testbase.entrypoints import generic_test_entrypoint
+    from ccai.testbase.entrypoints import generic_test_entrypoint
 
     generic_test_entrypoint()

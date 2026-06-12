@@ -7,7 +7,7 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 __version__ = "1.0.0"
 
@@ -39,7 +39,7 @@ from sqlalchemy.orm import declarative_base, relationship, backref
 
 from sqlalchemy_utils.types.uuid import UUIDType
 
-from automojo.pychestrate.core.storage.defaults import utc_now
+from ccai.pychestrate.core.storage.defaults import utc_now
 
 class SerializableModel:
     """

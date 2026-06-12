@@ -5,7 +5,7 @@
 The Testing functional area of Pychestrate is the part of the CI data model that
 captures *what test work was defined, how it was executed, and what it produced*.
 It is realized today by five entities in
-`source/packages/automojo/pychestrate/core/storage/orm.py`:
+`source/packages/ccai/pychestrate/core/storage/orm.py`:
 
 - **TestJobTemplate** (lines 172-182) — a reusable, named definition of a test job
   with an opaque JSON `specification`.

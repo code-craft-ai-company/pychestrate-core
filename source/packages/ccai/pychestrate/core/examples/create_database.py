@@ -1,24 +1,24 @@
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 __version__ = "1.0.0"
 
-from automojo.foundation.runtime.activation import activate_runtime, ActivationProfile
+from ccai.foundation.runtime.activation import activate_runtime, ActivationProfile
 
-from automojo.foundation.configuration.configurationmaps import resolve_configuration_maps
-from automojo.foundation.configuration.initialize import establish_configuration_settings
-from automojo.foundation.configuration.configurationvariables import resolve_configuration_variables
-
-
-from automojo.credentials.wellknown import CredentialManagerSingleton
-
-from automojo.dataprofiles.wellknown import DataProfileManagerSingleton
+from ccai.foundation.configuration.configurationmaps import resolve_configuration_maps
+from ccai.foundation.configuration.initialize import establish_configuration_settings
+from ccai.foundation.configuration.configurationvariables import resolve_configuration_variables
 
 
-from automojo.pychestrate.core.storage.dbconnection import create_database_connection_factory
-from automojo.pychestrate.core.storage.dbio import database_exists, database_create
-from automojo.pychestrate.core.storage.orm import PychestrateModelBase
+from ccai.credentials.wellknown import CredentialManagerSingleton
+
+from ccai.dataprofiles.wellknown import DataProfileManagerSingleton
+
+
+from ccai.pychestrate.core.storage.dbconnection import create_database_connection_factory
+from ccai.pychestrate.core.storage.dbio import database_exists, database_create
+from ccai.pychestrate.core.storage.orm import PychestrateModelBase
 
 
 def create_database_main():

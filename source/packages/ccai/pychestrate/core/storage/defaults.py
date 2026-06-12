@@ -1,5 +1,5 @@
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 from uuid import uuid4

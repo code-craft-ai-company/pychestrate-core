@@ -9,7 +9,7 @@ keep them self-contained within a single host and without external dependencies.
 def test_create_database_connection_factory_is_exposed():
     """Verify the symbol exists and is callable if the module imports."""
     try:
-        from automojo.pychestrate.core.storage.dbconnection import (
+        from ccai.pychestrate.core.storage.dbconnection import (
             create_database_connection_factory,
         )
     except Exception:

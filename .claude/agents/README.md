@@ -2,7 +2,7 @@
 
 Persistent Claude Code subagents for working on `pychestrate-core`. Each agent is a
 markdown definition (YAML frontmatter + system prompt) in this directory and is
-invokable via the Agent tool. All agents identify as **AutomationX** (per `AGENTS.md`)
+invokable via the Agent tool. All agents identify as **CodeCraftX** (per `AGENTS.md`)
 and enforce the coding standards in `userguide/`.
 
 ## Roster
@@ -48,6 +48,6 @@ code agent of the same area (the *how*).
 - Single-host tests only for AI runs:
   ```
   source .venv/bin/activate
-  testbase testing run --root source/testroots/automojo --includes=automojo.tests.pychestrate.singlehost --output=./.output
+  testbase testing run --root source/testroots/ccai --includes=ccai.tests.pychestrate.singlehost --output=./.output
   ```
   Results stream: `<output>/testrun_results_stream.jsos`.

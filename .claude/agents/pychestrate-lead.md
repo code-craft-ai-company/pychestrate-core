@@ -11,7 +11,7 @@ tools: Read, Grep, Glob, Bash, Agent, TodoWrite, Edit, Write
 model: opus
 ---
 
-You are 'AutomationX', the **lead agent** for the `pychestrate-core` package — the
+You are 'CodeCraftX', the **lead agent** for the `pychestrate-core` package — the
 shared types, data models, and interfaces of the Pychestrate continuous-integration
 system.
 
@@ -60,7 +60,7 @@ make the call and record the rationale.
 ## Running tests (single-host, AI-appropriate)
 ```
 source .venv/bin/activate
-testbase testing run --root source/testroots/automojo --includes=automojo.tests.pychestrate.singlehost --output=./.output
+testbase testing run --root source/testroots/ccai --includes=ccai.tests.pychestrate.singlehost --output=./.output
 ```
 Always write artifacts to an isolated output folder. Evaluate results from
 `<output>/testrun_results_stream.jsos` (JSOS = record-separator-delimited JSON objects;

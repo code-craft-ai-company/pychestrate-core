@@ -1,5 +1,5 @@
 # Personality
-AI Agents working in this repository should refer to themselves as an agent named 'AutomationX'.
+AI Agents working in this repository should refer to themselves as an agent named 'CodeCraftX'.
 
 # Rules
 - Look in the '<repository>/specs' folder for specification files that help to steer development work
@@ -13,14 +13,14 @@ The 'pychstrate-core' package contains common or shared types and code such as d
 # Testing Conventions
 The 'pychestrate-core' package repository utilizes the 'testbase' framework in order to run tests.  The 'testbase' test framework is used for single host testing or tests where only the machine running the tests is required.
 
-Test are organized at the lowest level by resource configuration.  For example, all the single host tests are in the folder 'source/testroots/automojo/tests/pychestrate/singlehost/core'.
+Test are organized at the lowest level by resource configuration.  For example, all the single host tests are in the folder 'source/testroots/ccai/tests/pychestrate/singlehost/core'.
 
 AI based testing should run only the 'singlehost' tests tests with:
 
 ```
     source .venv/bin/activate
     
-    testbase testing run --root source/testroots/automojo --includes=automojo.tests.pychestrate.singlehost --output=./.output
+    testbase testing run --root source/testroots/ccai --includes=ccai.tests.pychestrate.singlehost --output=./.output
 ```
 
 When running tests you should create an output folder in order to be able to capture all the test run artifacts in an isolated folder.
@@ -32,11 +32,11 @@ Avoid composite tests that validate multiple components or functions in a series
 
 
 # Code Naming Conventions
-The code naming conventions of this repository follows the [Automation Mojo Python Naming Conventions](userguide/10-02-naming-conventions.rst)
+The code naming conventions of this repository follows the [Code Craft AI Python Naming Conventions](userguide/10-02-naming-conventions.rst)
 
 
 # Code Structure
-The code structure of this repository follows the [Automation Mojo Python Code Structure Standards](userguide/10-01-code-organization.rst)
+The code structure of this repository follows the [Code Craft AI Python Code Structure Standards](userguide/10-01-code-organization.rst)
 
 
 # Coding Standards
@@ -91,7 +91,7 @@ def test_use_landscape(lscape: Landscape):
 
 ```
 
-The test tree should only contain resource origination declarations and tests.  It should not contain factories unless the usage of the factory is very isolated.  It is preferable to place factories in a folder such as a factory that creates the AutomationPodSimple object might be located at 'source/testroots/automojo/testshared/factories/automationpods/automationpodsimple.py'
+The test tree should only contain resource origination declarations and tests.  It should not contain factories unless the usage of the factory is very isolated.  It is preferable to place factories in a folder such as a factory that creates the AutomationPodSimple object might be located at 'source/testroots/ccai/testshared/factories/automationpods/automationpodsimple.py'
 
 
 
@@ -124,7 +124,7 @@ For running the `testbase` tests located under the folder '<repository-root>/sou
 ``` 
     cd <repository-root>
 
-    testbase testing run --root "<repository-root>/source/testbase" --include  automojo
+    testbase testing run --root "<repository-root>/source/testbase" --include  ccai
 ```
 
 # Evaluating Test Results
@@ -137,7 +137,7 @@ test starts it writes a preview to the stream.  The test preview has a 'result' 
 
 ```
 {
-    "name": "automojo.tests.singlehost.interop.protocols.dns.test_dnsaddress#test_write_passes_address",
+    "name": "ccai.tests.singlehost.interop.protocols.dns.test_dnsaddress#test_write_passes_address",
     "monikers": [],
     "pivots": {},
     "instance": "abb868e4-ce97-4bae-b0af-715da0d61d92",
@@ -153,7 +153,7 @@ When a test finishes it writes a result to the stream.  A test result will alway
 
 ```
 {
-    "name": "automojo.tests.singlehost.interop.protocols.dns.test_dnsaddress#test_write_passes_address",
+    "name": "ccai.tests.singlehost.interop.protocols.dns.test_dnsaddress#test_write_passes_address",
     "monikers": [],
     "pivots": {},
     "instance": "abb868e4-ce97-4bae-b0af-715da0d61d92",

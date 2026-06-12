@@ -1,12 +1,12 @@
 """
-TestBase tests for ORM metadata in automojo.pychestrate.core.storage.orm
+TestBase tests for ORM metadata in ccai.pychestrate.core.storage.orm
 
 These tests verify table names and the absence of deprecated relationships.
 Each test focuses on a single assertion per the repository's granularity guidelines.
 """
 
 try:
-    from automojo.pychestrate.core.storage.orm import BuildTemplate, BuildJob
+    from ccai.pychestrate.core.storage.orm import BuildTemplate, BuildJob
 except Exception:  # If dependencies are missing, allow tests to no-op
     BuildTemplate = None
     BuildJob = None

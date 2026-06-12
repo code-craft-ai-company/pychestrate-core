@@ -7,7 +7,7 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 __version__ = "1.0.0"
 
@@ -25,15 +25,15 @@ from sqlalchemy_utils import database_exists as sqlutils_database_exists
 from sqlalchemy_utils import create_database as sqlutils_create_database
 from sqlalchemy_utils import drop_database as sqlutils_drop_database
 
-from automojo.errors.exceptions import ConfigurationError
+from ccai.errors.exceptions import ConfigurationError
 
-from automojo.credentials.credentialmanager import CredentialManager
+from ccai.credentials.credentialmanager import CredentialManager
 
-from automojo.dataprofiles.databasebasicsocketprofile import DatabaseBasicSocketProfile
+from ccai.dataprofiles.databasebasicsocketprofile import DatabaseBasicSocketProfile
 
-from automojo.pychestrate.core.storage.orm import PychestrateModelBase
+from ccai.pychestrate.core.storage.orm import PychestrateModelBase
 
-from automojo.pychestrate.core.storage.dbconnection import DatabaseConnectionFactory, create_database_connection_factory
+from ccai.pychestrate.core.storage.dbconnection import DatabaseConnectionFactory, create_database_connection_factory
 
 
 logger = logging.getLogger()
