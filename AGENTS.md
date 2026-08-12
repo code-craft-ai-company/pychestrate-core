@@ -13,17 +13,19 @@ The 'pychstrate-core' package contains common or shared types and code such as d
 # Testing Conventions
 The 'pychestrate-core' package repository utilizes the 'testbase' framework in order to run tests.  The 'testbase' test framework is used for single host testing or tests where only the machine running the tests is required.
 
-Test are organized at the lowest level by resource configuration.  For example, all the single host tests are in the folder 'source/testroots/automojo/tests/pychestrate/singlehost/core'.
+This repository has a single `testbase` test root at 'source/testroots/automojo'.  Tests are organized under that root at the lowest level by resource configuration.  For example, all the single host tests are in the folder 'source/testroots/automojo/tests/pychestrate/singlehost/core'.
 
-AI based testing should run only the 'singlehost' tests tests with:
+AI based testing should run only the 'singlehost' tests with:
 
 ```
     source .venv/bin/activate
-    
+
     testbase testing run --root source/testroots/automojo --includes=automojo.tests.pychestrate.singlehost --output=./.output
 ```
 
-When running tests you should create an output folder in order to be able to capture all the test run artifacts in an isolated folder.
+This is the canonical test invocation for this repository.  The [Running Tests](#running-tests) section below covers environment activation and how to narrow a run, but does not restate the command.
+
+Test run artifacts are written to the folder named by `--output`.  Always direct artifacts to an isolated folder so runs do not overlap.  Use the repository standard './.output' folder unless you have a reason not to; it is already excluded by '.gitignore' along with the ad-hoc 'test-output-*' pattern.
 
 ## Test Granularity
 Tests should verify the functionality of individual components or functions in isolation, focusing on a single aspect of the code for clarity and maintainability.
@@ -119,13 +121,15 @@ In order to run the `testbase` tests, you must first enter the virtual environme
     source <repository-root>/.venv/bin/activate
 ```
 
-For running the `testbase` tests located under the folder '<repository-root>/source/testbase', use the commands:
+Then run the tests from the repository root using the canonical invocation given in the [Testing Conventions](#testing-conventions) section above.  The `testbase` tests of this repository live under the single test root '<repository-root>/source/testroots/automojo'; there is no 'source/testbase' folder.
 
-``` 
-    cd <repository-root>
+To run a narrower subset, extend the `--includes` module path to the subtree you want.  For example, to run only the storage tests:
 
-    testbase testing run --root "<repository-root>/source/testbase" --include  automojo
 ```
+    --includes=automojo.tests.pychestrate.singlehost.core.storage
+```
+
+The `--includes` value is a dotted module path rooted at the test root package name ('automojo'), so it mirrors the folder layout under 'source/testroots'.
 
 # Evaluating Test Results
 There is a machine processable JSOS stream file in the output folder.
