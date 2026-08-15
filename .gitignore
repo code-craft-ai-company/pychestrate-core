@@ -44,7 +44,6 @@ htmlcov/
 .coverage
 .coverage.*
 .cache
-.output
 nosetests.xml
 coverage.xml
 *.cover
@@ -129,6 +128,21 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Test run artifacts
+#   'testbase' and 'testplus' runs write their artifacts (logs, the
+#   'testrun_results_stream.jsos' stream, etc.) to the folder named by '--output'.
+#   './.output' is the repository standard output folder -- see AGENTS.md.
+.output/
+
+#   Ad-hoc per-run output folders, including the epoch-stamped folders that
+#   accumulate when a run is given its own throwaway output directory
+#   (for example 'test-output-1749600000').  These patterns have no leading
+#   slash, so they match at the repository root and at any depth below it.
+test-output/
+test-output-*/
+testresults/
+testresults-*/
 
 # Project Specific Exclusion
 *.code-workspace
