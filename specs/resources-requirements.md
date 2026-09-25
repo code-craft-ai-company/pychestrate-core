@@ -10,7 +10,7 @@ may submit and operate that work, and the observability needed to keep the execu
 plane healthy.
 
 The canonical data model for this area lives in
-`source/packages/automojo/pychestrate/core/storage/orm.py` and is composed of the
+`source/packages/ccai/pychestrate/core/storage/orm.py` and is composed of the
 following entities:
 
 - **WorkQueue** (`orm.py:536-548`) — a named queue of work bound (today only loosely)
@@ -214,7 +214,7 @@ data-hygiene/cleanup.
 
 ## 7. Data Model Traceability
 
-Reference: `source/packages/automojo/pychestrate/core/storage/orm.py`.
+Reference: `source/packages/ccai/pychestrate/core/storage/orm.py`.
 
 | Entity (orm.py lines) | Owned / extended by requirements |
 |-----------------------|----------------------------------|

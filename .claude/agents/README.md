@@ -48,6 +48,6 @@ code agent of the same area (the *how*).
 - Single-host tests only for AI runs:
   ```
   source .venv/bin/activate
-  testbase testing run --root source/testroots/automojo --includes=automojo.tests.pychestrate.singlehost --output=./.output
+  testbase testing run --root source/testroots/ccai --includes=ccai.tests.pychestrate.singlehost --output=./.output
   ```
   Results stream: `<output>/testrun_results_stream.jsos`.

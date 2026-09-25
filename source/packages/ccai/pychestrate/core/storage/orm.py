@@ -39,7 +39,7 @@ from sqlalchemy.orm import declarative_base, relationship, backref
 
 from sqlalchemy_utils.types.uuid import UUIDType
 
-from automojo.pychestrate.core.storage.defaults import utc_now
+from ccai.pychestrate.core.storage.defaults import utc_now
 
 class SerializableModel:
     """

@@ -13,14 +13,14 @@ The 'pychstrate-core' package contains common or shared types and code such as d
 # Testing Conventions
 The 'pychestrate-core' package repository utilizes the 'testbase' framework in order to run tests.  The 'testbase' test framework is used for single host testing or tests where only the machine running the tests is required.
 
-This repository has a single `testbase` test root at 'source/testroots/automojo'.  Tests are organized under that root at the lowest level by resource configuration.  For example, all the single host tests are in the folder 'source/testroots/automojo/tests/pychestrate/singlehost/core'.
+This repository has a single `testbase` test root at 'source/testroots/ccai'.  Tests are organized under that root at the lowest level by resource configuration.  For example, all the single host tests are in the folder 'source/testroots/ccai/tests/pychestrate/singlehost/core'.
 
 AI based testing should run only the 'singlehost' tests with:
 
 ```
     source .venv/bin/activate
 
-    testbase testing run --root source/testroots/automojo --includes=automojo.tests.pychestrate.singlehost --output=./.output
+    testbase testing run --root source/testroots/ccai --includes=ccai.tests.pychestrate.singlehost --output=./.output
 ```
 
 This is the canonical test invocation for this repository.  The [Running Tests](#running-tests) section below covers environment activation and how to narrow a run, but does not restate the command.
@@ -93,7 +93,7 @@ def test_use_landscape(lscape: Landscape):
 
 ```
 
-The test tree should only contain resource origination declarations and tests.  It should not contain factories unless the usage of the factory is very isolated.  It is preferable to place factories in a folder such as a factory that creates the AutomationPodSimple object might be located at 'source/testroots/automojo/testshared/factories/automationpods/automationpodsimple.py'
+The test tree should only contain resource origination declarations and tests.  It should not contain factories unless the usage of the factory is very isolated.  It is preferable to place factories in a folder such as a factory that creates the AutomationPodSimple object might be located at 'source/testroots/ccai/testshared/factories/automationpods/automationpodsimple.py'
 
 
 
@@ -121,15 +121,15 @@ In order to run the `testbase` tests, you must first enter the virtual environme
     source <repository-root>/.venv/bin/activate
 ```
 
-Then run the tests from the repository root using the canonical invocation given in the [Testing Conventions](#testing-conventions) section above.  The `testbase` tests of this repository live under the single test root '<repository-root>/source/testroots/automojo'; there is no 'source/testbase' folder.
+Then run the tests from the repository root using the canonical invocation given in the [Testing Conventions](#testing-conventions) section above.  The `testbase` tests of this repository live under the single test root '<repository-root>/source/testroots/ccai'; there is no 'source/testbase' folder.
 
 To run a narrower subset, extend the `--includes` module path to the subtree you want.  For example, to run only the storage tests:
 
 ```
-    --includes=automojo.tests.pychestrate.singlehost.core.storage
+    --includes=ccai.tests.pychestrate.singlehost.core.storage
 ```
 
-The `--includes` value is a dotted module path rooted at the test root package name ('automojo'), so it mirrors the folder layout under 'source/testroots'.
+The `--includes` value is a dotted module path rooted at the test root package name ('ccai'), so it mirrors the folder layout under 'source/testroots'.
 
 # Evaluating Test Results
 There is a machine processable JSOS stream file in the output folder.
@@ -141,7 +141,7 @@ test starts it writes a preview to the stream.  The test preview has a 'result' 
 
 ```
 {
-    "name": "automojo.tests.singlehost.interop.protocols.dns.test_dnsaddress#test_write_passes_address",
+    "name": "ccai.tests.singlehost.interop.protocols.dns.test_dnsaddress#test_write_passes_address",
     "monikers": [],
     "pivots": {},
     "instance": "abb868e4-ce97-4bae-b0af-715da0d61d92",
@@ -157,7 +157,7 @@ When a test finishes it writes a result to the stream.  A test result will alway
 
 ```
 {
-    "name": "automojo.tests.singlehost.interop.protocols.dns.test_dnsaddress#test_write_passes_address",
+    "name": "ccai.tests.singlehost.interop.protocols.dns.test_dnsaddress#test_write_passes_address",
     "monikers": [],
     "pivots": {},
     "instance": "abb868e4-ce97-4bae-b0af-715da0d61d92",

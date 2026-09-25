@@ -25,15 +25,15 @@ from sqlalchemy_utils import database_exists as sqlutils_database_exists
 from sqlalchemy_utils import create_database as sqlutils_create_database
 from sqlalchemy_utils import drop_database as sqlutils_drop_database
 
-from automojo.errors.exceptions import ConfigurationError
+from ccai.errors.exceptions import ConfigurationError
 
-from automojo.credentials.credentialmanager import CredentialManager
+from ccai.credentials.credentialmanager import CredentialManager
 
-from automojo.dataprofiles.databasebasicsocketprofile import DatabaseBasicSocketProfile
+from ccai.dataprofiles.databasebasicsocketprofile import DatabaseBasicSocketProfile
 
-from automojo.pychestrate.core.storage.orm import PychestrateModelBase
+from ccai.pychestrate.core.storage.orm import PychestrateModelBase
 
-from automojo.pychestrate.core.storage.dbconnection import DatabaseConnectionFactory, create_database_connection_factory
+from ccai.pychestrate.core.storage.dbconnection import DatabaseConnectionFactory, create_database_connection_factory
 
 
 logger = logging.getLogger()
@@ -80,7 +80,7 @@ def create_network_attached_database(db_profile: DatabaseBasicSocketProfile, cre
     conn_factory = create_database_connection_factory(db_profile, cred_manager)
     if conn_factory is None:
         db_profile_name = db_profile["name"]
-        errmsg = "'create_automojo_enterprise_database' could not get a connection factory for profile={}".format(
+        errmsg = "'create_network_attached_database' could not get a connection factory for profile={}".format(
             db_profile_name
         )
         raise ConfigurationError(errmsg)

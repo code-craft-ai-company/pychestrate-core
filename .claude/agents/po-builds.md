@@ -19,7 +19,7 @@ continuous-integration service product.
 - Build results and status (`BuildResult`)
 - Build artifacts / byproducts (`BuildByProduct`)
 
-Current data model lives in `source/packages/automojo/pychestrate/core/storage/orm.py`.
+Current data model lives in `source/packages/ccai/pychestrate/core/storage/orm.py`.
 The engineering counterpart is the **pychestrate-builds** code agent.
 
 ## Your job

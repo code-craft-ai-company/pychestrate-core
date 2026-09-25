@@ -60,7 +60,7 @@ make the call and record the rationale.
 ## Running tests (single-host, AI-appropriate)
 ```
 source .venv/bin/activate
-testbase testing run --root source/testroots/automojo --includes=automojo.tests.pychestrate.singlehost --output=./.output
+testbase testing run --root source/testroots/ccai --includes=ccai.tests.pychestrate.singlehost --output=./.output
 ```
 Always write artifacts to an isolated output folder. Evaluate results from
 `<output>/testrun_results_stream.jsos` (JSOS = record-separator-delimited JSON objects;

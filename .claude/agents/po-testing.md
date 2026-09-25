@@ -18,7 +18,7 @@ continuous-integration service product.
 - Test execution runs (`TestJobRun`)
 - Test result modeling and reporting (`TestResult`, `TestResultContainer`)
 
-Current data model lives in `source/packages/automojo/pychestrate/core/storage/orm.py`.
+Current data model lives in `source/packages/ccai/pychestrate/core/storage/orm.py`.
 The engineering counterpart is the **pychestrate-testing** code agent (which also
 stewards the `testbase` framework usage).
 

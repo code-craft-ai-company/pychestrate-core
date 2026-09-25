@@ -8,7 +8,7 @@ topology (team → integration → mainline → support lines); individual **rel
 topology to literal repository branches, builds, and ship dates for a specific product.
 
 The area is implemented today by five entities in
-`source/packages/automojo/pychestrate/core/storage/orm.py`:
+`source/packages/ccai/pychestrate/core/storage/orm.py`:
 
 - `ReleaseTrain` (orm.py:262) — named, product-agnostic container for a symbolic branch topology and its releases.
 - `ReleaseTrainBranchType` (orm.py:285) — enum: `TEAM`, `INTEGRATION`, `MAINLINE`, `SUPPORT`, `OTHER`.

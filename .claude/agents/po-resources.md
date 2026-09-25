@@ -19,7 +19,7 @@ Pychestrate continuous-integration service product.
 - Capacity grouping and entitlements (`FeatureGroup`, `FeatureGroupMembership`)
 - Users and accounts (`User`, `AccountStatus`, `AuthenticationType`)
 
-Current data model lives in `source/packages/automojo/pychestrate/core/storage/orm.py`.
+Current data model lives in `source/packages/ccai/pychestrate/core/storage/orm.py`.
 The engineering counterpart is the **pychestrate-resources** code agent.
 
 ## Your job

@@ -20,7 +20,7 @@ continuous-integration service product.
 - Branch tracking (`Branch`)
 - Product-to-repository mapping (`ProductToRepository`)
 
-Current data model lives in `source/packages/automojo/pychestrate/core/storage/orm.py`.
+Current data model lives in `source/packages/ccai/pychestrate/core/storage/orm.py`.
 The engineering counterpart is the **pychestrate-projects** code agent.
 
 ## Your job

@@ -8,7 +8,7 @@ point for every CI workflow: before Pychestrate can clone code, watch branches, 
 builds, a product and its source topology must be registered here.
 
 The area is implemented by five SQLAlchemy entities in
-`source/packages/automojo/pychestrate/core/storage/orm.py`:
+`source/packages/ccai/pychestrate/core/storage/orm.py`:
 
 - **Product** (`orm.py:186`) — a named, uniquely-identified product composed of one or more
   components, with relationships to its components, product-scoped repositories, and releases.

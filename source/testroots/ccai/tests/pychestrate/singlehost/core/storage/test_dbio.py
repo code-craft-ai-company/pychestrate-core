@@ -1,11 +1,11 @@
-import automojo.testbase as testbase
+import ccai.testbase as testbase
 
-from automojo.errors.exceptions import SkipError
+from ccai.errors.exceptions import SkipError
 
 try:
-    from automojo.credentials.credentialmanager import CredentialManager
-    from automojo.dataprofiles.databasebasicsocketprofile import DatabaseBasicSocketProfile
-    from automojo.pychestrate.core.storage.dbconnection import create_database_connection_factory
+    from ccai.credentials.credentialmanager import CredentialManager
+    from ccai.dataprofiles.databasebasicsocketprofile import DatabaseBasicSocketProfile
+    from ccai.pychestrate.core.storage.dbconnection import create_database_connection_factory
 except Exception:  # pragma: no cover
     CredentialManager = None
     DatabaseBasicSocketProfile = None
@@ -53,6 +53,6 @@ def test_create_database_connection_factory():
 
 
 if __name__ == "__main__":
-    from automojo.testbase.entrypoints import generic_test_entrypoint
+    from ccai.testbase.entrypoints import generic_test_entrypoint
 
     generic_test_entrypoint()
