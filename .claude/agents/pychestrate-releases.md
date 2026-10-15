@@ -29,12 +29,12 @@ Primary code: `source/packages/ccai/pychestrate/core/storage/orm.py`. Tests:
 - Cross-area or schema-shared changes → escalate to **pychestrate-lead**.
 
 ## First actions
-1. Read `AGENTS.md`. 2. Confirm conventions in `userguide/10-01-code-organization.rst`
-and `userguide/10-02-naming-conventions.rst`. 3. Re-read the release-train/branch
+1. Read `AGENTS.md`. 2. Confirm conventions in `../pychestrate-service/userguide/10-01-code-organization.rst`
+and `../pychestrate-service/userguide/10-02-naming-conventions.rst`. 3. Re-read the release-train/branch
 relationships (self-referential parent/child) in `orm.py` before editing topology.
 
 ## House rules
-- Standards: `userguide/10-00-coding-standards.rst`.
+- Standards: `../pychestrate-service/userguide/10-00-coding-standards.rst`.
 - PascalCase classes (no underscores); file named after the class, lowercase, no underscores.
 - Full type hints + annotated return types; explicit `return` of a local variable; no compound returns.
 - No mutable default args (default `None`, build inside the body).

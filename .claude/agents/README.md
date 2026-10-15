@@ -3,7 +3,7 @@
 Persistent Claude Code subagents for working on `pychestrate-core`. Each agent is a
 markdown definition (YAML frontmatter + system prompt) in this directory and is
 invokable via the Agent tool. All agents identify as **AutomationX** (per `AGENTS.md`)
-and enforce the coding standards in `userguide/`.
+and enforce the coding standards (kept once, in pychestrate-service: see `userguide/contributing.rst`).
 
 ## Roster
 
@@ -43,7 +43,7 @@ code agent of the same area (the *how*).
 
 ## Conventions every agent follows
 
-- Standards: `userguide/10-00-coding-standards.rst`, naming `10-02-naming-conventions.rst`,
+- Standards: `../pychestrate-service/userguide/10-00-coding-standards.rst`, naming `10-02-naming-conventions.rst`,
   structure `10-01-code-organization.rst`, testing `10-03`/`10-04-03`.
 - Single-host tests only for AI runs:
   ```

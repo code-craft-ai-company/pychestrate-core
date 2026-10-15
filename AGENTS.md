@@ -3,7 +3,7 @@ AI Agents working in this repository should refer to themselves as an agent name
 
 # Rules
 - Look in the '<repository>/specs' folder for specification files that help to steer development work
-- Look in the '<repository>/userguide' folder for files containing standards and conventions
+- Standards and conventions are kept once, in the 'pychestrate-service' repository ('userguide/10-*' there); '<repository>/userguide/contributing.rst' lists them with links, and in a sibling checkout they are under '../pychestrate-service/userguide'
 - Look in the '<repository>/prompts' folder for pre-build prompts
 - Files inside the .venv folder should not be modified, they are modified by the setup scripts
 
@@ -34,11 +34,11 @@ Avoid composite tests that validate multiple components or functions in a series
 
 
 # Code Naming Conventions
-The code naming conventions of this repository follows the [Automation Mojo Python Naming Conventions](userguide/10-02-naming-conventions.rst)
+The code naming conventions of this repository follows the [Naming Conventions](https://github.com/code-craft-ai-company/pychestrate-service/blob/main/userguide/10-02-naming-conventions.rst) (in a sibling checkout: ../pychestrate-service/userguide/10-02-naming-conventions.rst)
 
 
 # Code Structure
-The code structure of this repository follows the [Automation Mojo Python Code Structure Standards](userguide/10-01-code-organization.rst)
+The code structure of this repository follows the [Code Structure Standards](https://github.com/code-craft-ai-company/pychestrate-service/blob/main/userguide/10-01-code-organization.rst) (in a sibling checkout: ../pychestrate-service/userguide/10-01-code-organization.rst)
 
 
 # Coding Standards
@@ -47,7 +47,7 @@ The code in this repository is meant to be utilized by testing tools and test fr
 *  debuggability over performance
 *  readability over conciseness
 
-For all the code in this repository, follow the coding standards specified at [Coding Standards](userguide/10-00-coding-standards.rst)
+For all the code in this repository, follow the coding standards specified at [Coding Standards](https://github.com/code-craft-ai-company/pychestrate-service/blob/main/userguide/10-00-coding-standards.rst) (in a sibling checkout: ../pychestrate-service/userguide/10-00-coding-standards.rst)
 
 # Writing Tests
 

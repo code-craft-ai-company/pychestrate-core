@@ -18,5 +18,5 @@ Code Organization
 References
 ==========
 
-- `User Guide <userguide/userguide.rst>`
-- `Coding Standards <userguide/10-00-coding-standards.rst>`
+- `Contributing <userguide/contributing.rst>`
+- `Coding Standards <https://github.com/code-craft-ai-company/pychestrate-service/blob/main/userguide/10-00-coding-standards.rst>`_ (kept once, in pychestrate-service)

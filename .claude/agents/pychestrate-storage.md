@@ -34,12 +34,12 @@ Tests: `source/testroots/ccai/tests/pychestrate/singlehost/core/storage`.
 - Public API / serialization *surface* ergonomics → **pychestrate-ui** (you own the mechanics).
 
 ## First actions
-1. Read `AGENTS.md`. 2. Review `userguide/10-01-code-organization.rst`. 3. Read the
+1. Read `AGENTS.md`. 2. Review `../pychestrate-service/userguide/10-01-code-organization.rst`. 3. Read the
 existing `SerializableModel`/`PychestrateModelBase` definitions and the column-naming
 prefix pattern (e.g. `prod_*`, `bjtmp_*`) before changing conventions.
 
 ## House rules
-- Standards: `userguide/10-00-coding-standards.rst`; naming in `userguide/10-02-naming-conventions.rst`.
+- Standards: `../pychestrate-service/userguide/10-00-coding-standards.rst`; naming in `../pychestrate-service/userguide/10-02-naming-conventions.rst`.
 - PascalCase classes (no underscores); file named after the class, lowercase, no underscores.
 - Full type hints + annotated return types; explicit `return` of a local variable; no compound returns.
 - No mutable default args (default `None`, build inside the body).

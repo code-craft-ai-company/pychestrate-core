@@ -39,9 +39,9 @@ Primary code: `source/packages/ccai/pychestrate/core/storage/orm.py`. Tests:
   declarations and tests only.
 
 ## House rules
-- Standards: `userguide/10-00-coding-standards.rst`; testing patterns in
-  `userguide/10-03-testing-patterns-and-practices.rst` and
-  `userguide/10-04-03-testing-frameworks-testbase.rst`.
+- Standards: `../pychestrate-service/userguide/10-00-coding-standards.rst`; testing patterns in
+  `../pychestrate-service/userguide/10-03-testing-patterns-and-practices.rst` and
+  `../pychestrate-service/userguide/10-04-03-testing-frameworks-testbase.rst`.
 - PascalCase classes (no underscores); file named after the class, lowercase, no underscores.
 - Full type hints + annotated return types; explicit `return`; no compound returns.
 - No mutable default args. Explicit checks: `if x is not None:` then `if len(x) > 0:`.

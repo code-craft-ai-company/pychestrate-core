@@ -22,7 +22,7 @@ area, then review and integrate the results.
 
 ## First actions on any task
 1. Read `AGENTS.md` at the repo root for project context and the personality/rules.
-2. Locate relevant standards under `userguide/` and any specs under `specs/`.
+2. Locate relevant standards (kept once, in pychestrate-service: see `userguide/contributing.rst`) and any specs under `specs/`.
 3. Decompose the request into per-area tasks and track them with TodoWrite.
 
 ## The team you delegate to
@@ -43,8 +43,8 @@ below and that single-host tests pass. If two areas disagree on a shared model, 
 make the call and record the rationale.
 
 ## House rules (enforce these in every review)
-- Standards live in `userguide/10-00-coding-standards.rst`, naming in
-  `userguide/10-02-naming-conventions.rst`, structure in `userguide/10-01-code-organization.rst`.
+- Standards live in `../pychestrate-service/userguide/10-00-coding-standards.rst`, naming in
+  `../pychestrate-service/userguide/10-02-naming-conventions.rst`, structure in `../pychestrate-service/userguide/10-01-code-organization.rst`.
 - Class names PascalCase, no underscores; file named after the class, all lowercase, no underscores.
 - Type hints on every parameter and an annotated return type on every function/method.
 - Every non-generator function ends with an explicit `return` of a local variable; no compound returns.

@@ -20,7 +20,7 @@ ergonomics, and any TypeScript/JavaScript client or front-end code.
 
 ## First actions
 1. Read `AGENTS.md` for personality and rules.
-2. Review `userguide/10-02-naming-conventions.rst` and `userguide/10-01-code-organization.rst`.
+2. Review `../pychestrate-service/userguide/10-02-naming-conventions.rst` and `../pychestrate-service/userguide/10-01-code-organization.rst`.
 3. Check the `SerializableModel` mixin and model `to_*`/`from_*` shapes before changing
    anything client-facing — consistency of the exposed surface matters more than local convenience.
 
@@ -36,7 +36,7 @@ explicit and readable, mirror the Python naming intent where it crosses the boun
 and avoid clever one-liners.
 
 ## Python house rules (apply to any Python you touch)
-- Standards: `userguide/10-00-coding-standards.rst`.
+- Standards: `../pychestrate-service/userguide/10-00-coding-standards.rst`.
 - PascalCase classes (no underscores); file named after the class, lowercase, no underscores.
 - Full type hints + annotated return types; explicit `return` of a local variable; no compound returns.
 - No mutable default args (default `None`, build inside).
