@@ -1,7 +1,8 @@
-============
+==================
 Pychestrate - Core
-============
-The 'Pychstrate' core package contains common/shared types and code such as data models and interfaces.
+==================
+
+The 'Pychestrate' core package contains common/shared types and code such as data models and interfaces.
 
 =================
 Code Organization
